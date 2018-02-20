@@ -1,0 +1,2 @@
+# Crestron-Mobotix-Activity-Monitor
+This is a Crestron module designed to monitor one or more Mobotix access control keypads for access events. When a code is entered into a Mobotix keypad, the Crestron module will report a new event along with the date and user that entered a code. Additionally, this module can grab the current screenshot from the Mobotix camera and generate an email with the screenshot attached to the event details.
