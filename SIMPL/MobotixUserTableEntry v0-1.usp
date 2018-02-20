@@ -1,0 +1,31 @@
+/*
+Dealer Name: Ask The Advisors
+Programmer: Ryan French
+*/
+
+#SYMBOL_NAME "Mobotix UserTable Entry 0.1"
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+#USER_SIMPLSHARP_LIBRARY "MobotixAccess"
+
+//=====// I/O //=====//
+
+STRING_PARAMETER UserNumber[4], 
+				 UserName[32];
+
+//=====// VARIABLES //=====//
+
+//=====// FUNCTIONS //=====//
+
+//=====// EVENTS //=====//
+
+//=====// MAIN //=====//
+
+FUNCTION Main () {
+    
+	Core.InitializeUserTable ();
+	Core.AddUserTableEntry (UserNumber, UserName);
+
+}
+

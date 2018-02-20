@@ -1,0 +1,81 @@
+/*
+Dealer Name: Ask The Advisors
+Programmer: Ryan French
+*/
+
+#SYMBOL_NAME "Mobotix Access 0.1"
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+#PRINT_TO_TRACE
+#USER_SIMPLSHARP_LIBRARY "MobotixAccess"
+
+DIGITAL_INPUT _SKIP_,
+			  _SKIP_,
+			  _SKIP_,
+			  _SKIP_,
+			  Request_Logs,
+			  Request_ScreenCap;
+
+DIGITAL_OUTPUT _SKIP_,
+			   _SKIP_,
+			   _SKIP_,
+			   _SKIP_,
+			   Event_Triggered;
+
+
+STRING_OUTPUT _SKIP_,
+			  Event_Date, 
+			  Event_Description,
+			  Event_Action,
+			  Event_User;
+
+STRING_PARAMETER IPAddress[16], 
+				 UserName[32], 
+				 Password[32],
+				 DeviceName[32];
+
+////// VARIABLES
+
+Core client;
+
+////// METHODS
+
+CALLBACK FUNCTION Log_Result_Handler (STRING _date, STRING _description, STRING _action, STRING _user) {
+
+	PULSE(50, Event_Triggered);
+
+	Event_Date        = _date;
+	Event_Description = _description;
+	Event_Action      = _action;
+	Event_User        = _user;
+
+}
+
+////// EVENTS
+
+PUSH Request_Logs {
+        
+	client.RequestLogs (IPAddress, UserName, Password);
+
+}
+
+PUSH Request_ScreenCap {
+
+	client.GrabCurrentImage ();
+
+}
+
+////// MAIN
+
+FUNCTION Main() {
+
+	client.targetAddress  = IPAddress;
+	client.targetUserName = UserName;
+	client.targetPassword = Password;
+	client.deviceName     = DeviceName;
+ 
+	REGISTERDELEGATE (client, Log_Result_Callback, Log_Result_Handler);
+
+}
+
